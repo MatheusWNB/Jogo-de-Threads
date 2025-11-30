@@ -5,8 +5,8 @@
 
 typedef struct {
     char nome_jogador_1[20];
-    int vida;
-    int resistencia;
+    double vida;
+    double resistencia;
 } info_jogador_1;
 
 //Função para inicializar as informações do jogador 1

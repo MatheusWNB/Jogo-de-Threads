@@ -2,6 +2,7 @@
 #include "ataques_e_defesas.h"
 
 void func_ataques_e_defesas(ataques_e_defesas *ptr_ataques_e_defesas){
+    ataques_e_defesas escolha_ataques_e_defesas;
 
     //Escolha do usuário se defende ou ataca
     ptr_ataques_e_defesas -> escolha[0] = 1;//Defender
