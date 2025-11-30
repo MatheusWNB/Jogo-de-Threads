@@ -13,7 +13,7 @@ typedef struct {
 void func_info_jogador_1(info_jogador_1 *ptr_info_jogador_1);
 
 //Função para inicializar as ações do jogador 1 (Vou implementar)
-//void ataque_jogador_1(ataques_e_defesas *ptr_ataques_e_defesas);
+int ataque_jogador_1(ataques_e_defesas *ptr_ataques_e_defesas);
 
 #endif
 
