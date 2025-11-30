@@ -3,6 +3,12 @@
 #include "jogador_1.h"
 
 int main (){
+    //Ataque escolhido
+    int ataque_escolhido;
+
+    //Inimigo provisório
+    int vida_inimigo = 100;
+
     //Inicializa ataques e defesas
     ataques_e_defesas escolha_ataques_e_defesas;
     func_ataques_e_defesas(&escolha_ataques_e_defesas);
@@ -11,25 +17,15 @@ int main (){
     info_jogador_1 inicializar_jogador_1;
     func_info_jogador_1(&inicializar_jogador_1);
 
-    //Jogador 1
-    printf("Nome jogador 1 %s\n", 
-        inicializar_jogador_1.nome_jogador_1);
+    ataque_escolhido = ataque_jogador_1(&escolha_ataques_e_defesas);
 
-    printf("Vida %d\n", 
-        inicializar_jogador_1.vida);
+    printf("Esse foi o ataque escolhido: %d\n", ataque_escolhido);
 
-    printf("Resistência %d\n", 
-        inicializar_jogador_1.resistencia);
-
-    //Ataques e defesas
-    printf("Escolhas %d %d\n", 
-        escolha_ataques_e_defesas.escolha[0], escolha_ataques_e_defesas.escolha[1]);
-
-    printf("Ataques %0.2f %0.2f\n", 
-        escolha_ataques_e_defesas.ataques_basicos[0], escolha_ataques_e_defesas.ataques_basicos[1]);
-
-    printf("Defesas %0.2f %0.2f\n", 
-        escolha_ataques_e_defesas.defesas_basicas[0], escolha_ataques_e_defesas.defesas_basicas[1]);
+    if (ataque_escolhido == 1)
+        printf("Dano do ataque 1: %0.2f\n", escolha_ataques_e_defesas.ataques_basicos[0]);
+    
+    else if (ataque_escolhido == 2)
+        printf("Dano do ataque 2: %0.2f\n", escolha_ataques_e_defesas.ataques_basicos[1]);
 
     return 0;
 }
