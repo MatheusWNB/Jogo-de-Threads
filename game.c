@@ -7,25 +7,31 @@ int main (){
     int ataque_escolhido;
 
     //Inimigo provisório
-    int vida_inimigo = 100;
+    double vida_inimigo = 100;
+    double vida_inimigo_anterior = vida_inimigo;
 
     //Inicializa ataques e defesas
     ataques_e_defesas escolha_ataques_e_defesas;
     func_ataques_e_defesas(&escolha_ataques_e_defesas);
 
     //Inicializa jogador 1
-    info_jogador_1 inicializar_jogador_1;
-    func_info_jogador_1(&inicializar_jogador_1);
+    info_jogador_1 info_jogador_1;
+    func_info_jogador_1(&info_jogador_1);
 
-    ataque_escolhido = ataque_jogador_1(&escolha_ataques_e_defesas);
+    //Usuário escolhe qual ataque usar
+    ataque_escolhido = escolha_ataque_jogador_1(&escolha_ataques_e_defesas);
 
-    printf("Esse foi o ataque escolhido: %d\n", ataque_escolhido);
+    //Jogador 1 faz o ataque e da dano ao inimigo
+    vida_inimigo = ataque_jogador_1(&escolha_ataques_e_defesas, vida_inimigo, ataque_escolhido);
 
-    if (ataque_escolhido == 1)
-        printf("Dano do ataque 1: %0.2f\n", escolha_ataques_e_defesas.ataques_basicos[0]);
-    
-    else if (ataque_escolhido == 2)
-        printf("Dano do ataque 2: %0.2f\n", escolha_ataques_e_defesas.ataques_basicos[1]);
+    printf(
+        "Atacante: %s\n"
+        "Ataque escolhido: Ataque básico %d\n"
+        "Dano ao inimigo: %0.2f\n"
+        "Vida inimigo: %0.2f -> %0.2f\n",
+        info_jogador_1.nome_jogador_1, ataque_escolhido, 
+        escolha_ataques_e_defesas.ataques_basicos, vida_inimigo_anterior, vida_inimigo
+    );
 
     return 0;
 }
