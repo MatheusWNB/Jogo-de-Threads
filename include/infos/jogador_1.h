@@ -1,7 +1,7 @@
 #ifndef JOGADOR_1_H
 #define JOGADOR_1_H
 
-#include "ataques_e_defesas.h"
+#include "actions/ataques_e_defesas.h"
 
 typedef struct {
     char nome_jogador_1[20];

@@ -1,5 +1,5 @@
-#include "libs.h"
-#include "inimigo_1.h"
+#include "libs/libs.h"
+#include "infos/inimigo_1.h"
 #include <string.h>
 
 void func_info_inimigo_1(info_inimigo_1 *ptr_info_inimigo_1) {

@@ -1,5 +1,5 @@
-#include "libs.h"
-#include "atq_def_inimigo_1.h"
+#include "libs/libs.h"
+#include "actions/atq_def_inimigo_1.h"
 
 void func_atq_def_inimigo_1 (atq_def_inimigo_1 *ptr_atq_def_inimigo_1){
     //Define os ataques do inimigo

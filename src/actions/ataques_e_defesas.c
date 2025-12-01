@@ -1,5 +1,5 @@
-#include "libs.h"
-#include "ataques_e_defesas.h"
+#include "libs/libs.h"
+#include "actions/ataques_e_defesas.h"
 
 void func_ataques_e_defesas(ataques_e_defesas *ptr_ataques_e_defesas){
     ataques_e_defesas escolha_ataques_e_defesas;

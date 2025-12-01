@@ -1,6 +1,6 @@
-#include "libs.h"
-#include "ataques_e_defesas.h"
-#include "jogador_1.h"
+#include "libs/libs.h"
+#include "actions/ataques_e_defesas.h"
+#include "infos/jogador_1.h"
 
 int main (){
     //Ataque escolhido
@@ -30,7 +30,7 @@ int main (){
         "Dano ao inimigo: %0.2f\n"
         "Vida inimigo: %0.2f -> %0.2f\n",
         info_jogador_1.nome_jogador_1, ataque_escolhido, 
-        escolha_ataques_e_defesas.ataques_basicos, vida_inimigo_anterior, vida_inimigo
+        escolha_ataques_e_defesas.ataques_basicos[ataque_escolhido], vida_inimigo_anterior, vida_inimigo
     );
 
     return 0;

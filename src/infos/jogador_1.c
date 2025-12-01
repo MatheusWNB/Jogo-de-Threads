@@ -1,5 +1,5 @@
-#include "libs.h"
-#include "jogador_1.h"
+#include "libs/libs.h"
+#include "infos/jogador_1.h"
 #include <string.h>
 
 //Inicializa as informações do jogador 1
