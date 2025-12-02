@@ -20,5 +20,5 @@ double escolha_ataque_inimigo_1 (atq_def_inimigo_1 *ptr_atq_def_inimigo_1){
     int atq_escolhido = ptr_atq_def_inimigo_1 -> ataques_basicos[indice];
 
     return atq_escolhido;
-
+ 
 }
