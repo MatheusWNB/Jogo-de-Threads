@@ -1,6 +1,8 @@
 #ifndef INIMIGO_1_H
 #define INIMIGO_1_H
 
+#include "actions/atq_def_inimigo_1.h"
+
 typedef struct {
     char nome[20];
     double vida;
