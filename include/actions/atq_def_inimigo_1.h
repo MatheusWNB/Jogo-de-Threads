@@ -8,6 +8,6 @@ typedef struct {
 } atq_def_inimigo_1;
 
 //Função para definir os ataques e defesas
-void func_atq_def_inimigo_1 (atq_def_inimigo_1 *ptr_atq_def_inimigo_1);
+void func_atq_def_inimigo_1(atq_def_inimigo_1 *ptr_atq_def_inimigo_1);
 
 #endif
