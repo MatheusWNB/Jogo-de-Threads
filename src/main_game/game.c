@@ -34,27 +34,31 @@ int main (){
 
     int rodada_atual = 1;
 
+    //Loop principal para ataques do jogador e do inimigo (Finalizado quando alguém morre)
     while (true){
         system("clear");
         
         //Usuário escolhe qual ataque usar
         printf("RODADA %d\n           SUA VEZ DE JOGAR!          \n\n", rodada_atual);
-        atq_jogador1 = escolha_ataque_jogador_1(&escolha_ataques_e_defesas);
+        atq_jogador1 = escolha_ataque_jogador_1(&escolha_ataques_e_defesas);//Escolha de ataque do jogador
         putchar('\n');
         
         double vida_anterior_inmg1 = info_inmg1.vida;
-        info_inmg1.vida -= escolha_ataques_e_defesas.ataques_basicos[atq_jogador1];
+        info_inmg1.vida -= escolha_ataques_e_defesas.ataques_basicos[atq_jogador1]; //Reduz a vida do inimigo
         
+        //Mostra as informações da jogada do jogador 1
         info_rodada_atual_jgdr1(&info_jogador_1, &info_inmg1, &escolha_ataques_e_defesas, atq_jogador1, vida_anterior_inmg1);
         
         //Inimigo gera ataque aleatório
         printf("         INIMIGO ESTÁ ATACANDO!          \n\n", rodada_atual);
-        atq_inmg1 = escolha_ataque_inimigo_1(&escolha_atq_def_inmg1);
-        info_jogador_1.vida -= escolha_atq_def_inmg1.ataques_basicos[atq_inmg1];
+        atq_inmg1 = escolha_ataque_inimigo_1(&escolha_atq_def_inmg1); //Escolha de ataque aleatório do inimigo 1
+        info_jogador_1.vida -= escolha_atq_def_inmg1.ataques_basicos[atq_inmg1]; //Reduz a vida do jogador 1
 
+        //Mostra as informações da jogada do inimigo
         sleep(1.0);
         info_rodada_atual_inmg1(&info_jogador_1, &info_inmg1, &escolha_atq_def_inmg1, atq_inmg1);
 
+        //Verifica se a vida de algum dos dois zerou
         if (info_jogador_1.vida < 0 || info_inmg1.vida < 0){
             system("clear");
             if (info_jogador_1.vida > info_inmg1.vida)
@@ -65,6 +69,7 @@ int main (){
             break;
         }
         
+        //Próxima rodada
         putchar('\n');
         rodada_atual += 1;
         printf("Aperte 'ENTER' para ir para a próxima rodada\n");

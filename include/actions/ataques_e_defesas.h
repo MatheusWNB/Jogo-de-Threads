@@ -8,7 +8,7 @@ typedef struct {
     double ataques_basicos[2];
 } ataques_e_defesas;
 
-//Declarando função para definir a struct
+//Declarando função para definir os ataques e defesas do jogador 1
 void func_ataques_e_defesas(ataques_e_defesas *ptr_ataques_e_defesas);
 
 #endif

@@ -1,6 +1,7 @@
 #include "libs/libs.h"
 #include "actions/ataques_e_defesas.h"
 
+//As informações dos ataques e defesas do jogador 1
 void func_ataques_e_defesas(ataques_e_defesas *ptr_ataques_e_defesas){
 
     //Escolha do usuário se defende ou ataca

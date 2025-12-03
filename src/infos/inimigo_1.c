@@ -3,6 +3,7 @@
 #include "actions/atq_def_inimigo_1.h"
 #include <string.h>
 
+//Informações do inimigo 1
 void func_info_inimigo_1(info_inimigo_1 *ptr_info_inimigo_1) {
     
     strcpy(ptr_info_inimigo_1 -> nome, "Nine fingers");
@@ -11,6 +12,7 @@ void func_info_inimigo_1(info_inimigo_1 *ptr_info_inimigo_1) {
 
 }
 
+//Realiza a escolha aleatória do ataque do inimigo 1
 int escolha_ataque_inimigo_1 (atq_def_inimigo_1 *ptr_atq_def_inimigo_1){
     int laco = true;
     int indice;
@@ -27,7 +29,6 @@ int escolha_ataque_inimigo_1 (atq_def_inimigo_1 *ptr_atq_def_inimigo_1){
             laco = false;
 
     }
-        
+
     return indice;
- 
 }

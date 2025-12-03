@@ -11,6 +11,7 @@ void func_info_jogador_1(info_jogador_1 *ptr_info_jogador_1){
 
 }
 
+//Função para o usuário digitar a sua opção de ataque
 int escolha_ataque_jogador_1(ataques_e_defesas *ptr_ataques_e_defesas){
     int laco = true;
     int escolha_ataque;
@@ -25,6 +26,7 @@ int escolha_ataque_jogador_1(ataques_e_defesas *ptr_ataques_e_defesas){
 
         scanf("%d", &escolha_ataque);
 
+        //Verifica se a opção digitada está fora das opções disponíveis
         if (escolha_ataque < 0 || escolha_ataque > 1){
             system("clear");
             printf("Por favor, digite uma opção válida.\n");
@@ -39,12 +41,5 @@ int escolha_ataque_jogador_1(ataques_e_defesas *ptr_ataques_e_defesas){
     }
 
     return escolha_ataque;
-
-}
-
-double ataque_jogador_1(ataques_e_defesas *ptr_ataques_e_defesas, double vida_inimigo, int escolha_de_ataque){
-
-    vida_inimigo = vida_inimigo - ptr_ataques_e_defesas -> ataques_basicos[escolha_de_ataque];
-    return vida_inimigo;
 
 }
