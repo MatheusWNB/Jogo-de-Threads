@@ -34,30 +34,44 @@ int main (){
 
     int rodada_atual = 1;
 
-    while (info_jogador_1.vida > 0 && info_inmg1.vida > 0){
-
+    while (true){
+        system("clear");
+        
         //Usuário escolhe qual ataque usar
-        printf("RODADA %d. SUA VEZ DE JOGAR!\n", rodada_atual);
+        printf("RODADA %d\n           SUA VEZ DE JOGAR!          \n\n", rodada_atual);
         atq_jogador1 = escolha_ataque_jogador_1(&escolha_ataques_e_defesas);
-
+        putchar('\n');
+        
         double vida_anterior_inmg1 = info_inmg1.vida;
         info_inmg1.vida -= escolha_ataques_e_defesas.ataques_basicos[atq_jogador1];
-
+        
         info_rodada_atual_jgdr1(&info_jogador_1, &info_inmg1, &escolha_ataques_e_defesas, atq_jogador1, vida_anterior_inmg1);
-
-
+        
         //Inimigo gera ataque aleatório
-        printf("RODADA %d. INIMIGO ESTÁ ATACANDO!\n", rodada_atual);
+        printf("         INIMIGO ESTÁ ATACANDO!          \n\n", rodada_atual);
         atq_inmg1 = escolha_ataque_inimigo_1(&escolha_atq_def_inmg1);
         info_jogador_1.vida -= escolha_atq_def_inmg1.ataques_basicos[atq_inmg1];
-        info_rodada_atual_inmg1(&info_jogador_1, &info_inmg1, &escolha_atq_def_inmg1, atq_inmg1);
-        sleep(1.0);
 
+        sleep(1.0);
+        info_rodada_atual_inmg1(&info_jogador_1, &info_inmg1, &escolha_atq_def_inmg1, atq_inmg1);
+
+        if (info_jogador_1.vida < 0 || info_inmg1.vida < 0){
+            system("clear");
+            if (info_jogador_1.vida > info_inmg1.vida)
+            printf("VOCÊ GANHOU O JOGO, %s FOI DERROTADO\n", info_inmg1.nome);
+            else 
+            printf("VOCÊ PERDEU O JOGO SEU FRACASSADO %s VENCEU!\n", info_inmg1.nome);
+            
+            break;
+        }
+        
+        putchar('\n');
         rodada_atual += 1;
+        printf("Aperte 'ENTER' para ir para a próxima rodada\n");
+        getchar();
+        getchar();
         
     }
-
-
 
     return 0;
 }
