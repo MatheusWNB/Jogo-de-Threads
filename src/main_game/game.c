@@ -8,6 +8,7 @@
 #include <pthread.h>
 #include <stdint.h>
 
+
 pthread_mutex_t mutex_1;
 #define THREADS_PRINCIPAIS 2
 
