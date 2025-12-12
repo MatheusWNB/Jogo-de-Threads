@@ -10,100 +10,131 @@
 #include "actions/acao_inmg1.h"
 #include "actions/acao_jgdr.h"
 
-pthread_mutex_t mutex_1;
 #define THREADS_PRINCIPAIS 2
 
-void *gerenciar_threads (void *arg, info_jogador_1 *info_jgdr, info_inimigo_1 *info_inmg, 
-                        ataques_e_defesas *escolha_jgdr, atq_def_inimigo_1 *escolha_inmg, int *liberar_ataque, int *fim_rodada){
+// typedef struct {
+//     pthread_mutex_t mutex;
+//     info_inimigo_1 info_inmg1;
+//     atq_def_inimigo_1 escolha_atq_def_inmg1;
+//     info_jogador_1 info_jogador_1;
+//     ataques_e_defesas escolha_ataques_e_defesas;
+// } vars;
 
-    pthread_mutex_init(&mutex_1, 0);
+typedef struct {
+    int thread_id[2];
+    // vars *s;
+    pthread_mutex_t mutex;
+    info_inimigo_1 info_inmg1;
+    atq_def_inimigo_1 escolha_atq_def_inmg1;
+    info_jogador_1 info_jogador_1;
+    ataques_e_defesas escolha_ataques_e_defesas;
+} struct_t;
+
+void *gerenciar_threads (void *arg){
+
+    // pthread_mutex_init(&mutex, 0);
+
+    
+    //Verifica se o inimigo pode atacar
+    int ataque_liberado_inimigo = false;
+    int *ptr_ataque_liberado_inimigo = &ataque_liberado_inimigo;
+    
+    //Verifica se a rodada atual finalizou
+    int rodada_terminada = false;
+    int *ptr_rodada_terminada = &rodada_terminada;
     
     int rodada_atual = 1;
-    int tid = (int)(intptr_t)arg;
-    
+    struct_t *args = (struct_t *)arg;
+     //O identificador da thread
+    int thread_id = 
+
     //Thread do jogador
-    if (tid == 0){
-        int laco1 = true;
-        while (laco1){
-            pthread_mutex_lock(&mutex_1);
-            if (info_inmg->vida > 0){
-                if (*liberar_ataque == true){
-                    pthread_mutex_unlock(&mutex_1);
-                    continue;
-                }
-            }
+    if (args->thread_id == 0){
+        while (true){
+            pthread_mutex_lock(&args->mutex);
+            printf("entrei 1\n");
+            pthread_mutex_unlock(&args->mutex);
+            // pthread_mutex_lock(&mutex);
+            
+            // if (info_inmg->vida > 0){
+            //     if (*ptr_ataque_liberado_inimigo == true){
+            //         pthread_mutex_unlock(&mutex);
+            //         continue;
+            //     }
+            // }
             
             //system("clear");
-            
-            //Usuário escolhe qual ataque usar
-            printf("RODADA %d\n           SUA VEZ DE JOGAR!          \n\n", rodada_atual);
+            // printf("RODADA %d\n           SUA VEZ DE JOGAR!          \n\n", rodada_atual);
 
             //Realiza a jogada do usuário
-            acao_do_jgdr(info_jgdr, info_inmg, escolha_jgdr);
+            // acao_do_jgdr(info_jgdr, info_inmg, escolha_jgdr);
 
-            *liberar_ataque = true;
-            pthread_mutex_unlock(&mutex_1);
+            //Libera o ataque para o inimigo
+            // *ptr_ataque_liberado_inimigo = true;
+            // pthread_mutex_unlock(&mutex);
+            // printf("%d", *ptr_ataque_liberado_inimigo);
         }
             
-    }
-        
-    //Thread do inimigo
-    if (tid == 1){
-        int laco2 = true;
-        while (laco2){
-            pthread_mutex_lock(&mutex_1);
+    //Thread do Inimigo
+    } else if (args->thread_id == 1){
+        while (true){
+            // pthread_mutex_lock(&mutex);
+            pthread_mutex_lock(&args->mutex);
+            printf("entrei 1\n");
+            pthread_mutex_unlock(&args->mutex);
                 
             printf("oi");
-            if (*liberar_ataque == false){
-                pthread_mutex_unlock(&mutex_1);
-            }
+            // if (*ptr_ataque_liberado_inimigo == false){
+            //     pthread_mutex_unlock(&mutex);
+            //     continue;
+            // }
 
             //Realiza a jogada do inimigo 1
-            acao_do_inmg1(info_jgdr, info_inmg, escolha_inmg); 
+            // acao_do_inmg1(info_jgdr, info_inmg, escolha_inmg); 
                 
-            *fim_rodada = true;
-            pthread_mutex_unlock(&mutex_1);
+            //Indica o fim da rodada atual
+            // *ptr_rodada_terminada = true;
+            // pthread_mutex_unlock(&mutex);
         }   
     }
 
     pthread_exit(NULL);
 }
     
-int main (){
-    int ataque_liberado_inimigo = false;
-    int *ptr_ataque_liberado_inimigo = &ataque_liberado_inimigo;
-        
-    int rodada_terminada = false;
-    int *ptr_rodada_terminada = &rodada_terminada;
-
+int main(){
+    //Inicialização dos dados referentes ao inimigo e jogador na struct vars_players
+    // vars vars_players;
+    struct_t struct_thr;
+    pthread_mutex_init(&struct_thr.mutex, 0);
     //INIMIGO 1:
     //Inicializa inimigo 1
-    info_inimigo_1 info_inmg1;
-    func_info_inimigo_1(&info_inmg1);
-        
+    func_info_inimigo_1(&struct_thr.info_inmg1);
+
     //Inicializa ataques e defesas do inimigo 1
-    atq_def_inimigo_1 escolha_atq_def_inmg1;
-    func_atq_def_inimigo_1(&escolha_atq_def_inmg1);
+    func_atq_def_inimigo_1(&struct_thr.escolha_atq_def_inmg1);
         
     //JOGADOR 1:
     //Inicializa jogador 1
-    info_jogador_1 info_jogador_1;
-    func_info_jogador_1(&info_jogador_1);
+    func_info_jogador_1(&struct_thr.info_jogador_1);
             
     //Inicializa ataques e defesas
-    ataques_e_defesas escolha_ataques_e_defesas;
-    func_ataques_e_defesas(&escolha_ataques_e_defesas);         
-            
+    func_ataques_e_defesas(&struct_thr.escolha_ataques_e_defesas);
+    
     int status, i;
+
+    // struct_thr.s = &vars_players;
+    
     pthread_t threads[THREADS_PRINCIPAIS];
-            
+    
     for (i = 0; i < THREADS_PRINCIPAIS; i++){
+        
+        struct_thr.thread_id[i] = i;
+        
         status = pthread_create(
             &threads[i],
             NULL,
-            gerenciar_threads((void *)(intptr_t)i, &info_jogador_1, &info_inmg1, &escolha_ataques_e_defesas, &escolha_atq_def_inmg1,
-                                ptr_ataque_liberado_inimigo, ptr_rodada_terminada),
-            (void *)(intptr_t)i
+            gerenciar_threads,
+            (void *)&struct_thr
         );
 
         if (status != 0){
@@ -112,9 +143,8 @@ int main (){
         } 
     }
 
-    for(i = 0; i < THREADS_PRINCIPAIS; i++){
+    for(i = 0; i < THREADS_PRINCIPAIS; i++)
         pthread_join(threads[i], NULL);
-    }
     
     return 0;
 }
