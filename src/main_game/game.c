@@ -12,89 +12,56 @@
 
 #define THREADS_PRINCIPAIS 2
 
-// typedef struct {
-//     pthread_mutex_t mutex;
-//     info_inimigo_1 info_inmg1;
-//     atq_def_inimigo_1 escolha_atq_def_inmg1;
-//     info_jogador_1 info_jogador_1;
-//     ataques_e_defesas escolha_ataques_e_defesas;
-// } vars;
+typedef enum{
+    THREAD_JOGADOR,
+    THREAD_INIMIGO
+} def_thread;
 
-typedef struct {
-    int thread_id[2];
-    // vars *s;
+typedef struct{
     pthread_mutex_t mutex;
     info_inimigo_1 info_inmg1;
     atq_def_inimigo_1 escolha_atq_def_inmg1;
     info_jogador_1 info_jogador_1;
     ataques_e_defesas escolha_ataques_e_defesas;
-} struct_t;
+} dados_threads;
+
+typedef struct {
+    int thread_id;
+    dados_threads *args_t;
+    def_thread t_principais;
+} struct_threads;
 
 void *gerenciar_threads (void *arg){
+    struct_threads *args = (struct_threads *)arg;
 
-    // pthread_mutex_init(&mutex, 0);
-
-    
-    //Verifica se o inimigo pode atacar
-    int ataque_liberado_inimigo = false;
-    int *ptr_ataque_liberado_inimigo = &ataque_liberado_inimigo;
-    
-    //Verifica se a rodada atual finalizou
-    int rodada_terminada = false;
-    int *ptr_rodada_terminada = &rodada_terminada;
-    
     int rodada_atual = 1;
-    struct_t *args = (struct_t *)arg;
-     //O identificador da thread
-    int thread_id = 
 
     //Thread do jogador
-    if (args->thread_id == 0){
+    if (args->t_principais == THREAD_JOGADOR){
         while (true){
-            pthread_mutex_lock(&args->mutex);
-            printf("entrei 1\n");
-            pthread_mutex_unlock(&args->mutex);
-            // pthread_mutex_lock(&mutex);
-            
-            // if (info_inmg->vida > 0){
-            //     if (*ptr_ataque_liberado_inimigo == true){
-            //         pthread_mutex_unlock(&mutex);
-            //         continue;
-            //     }
-            // }
-            
-            //system("clear");
-            // printf("RODADA %d\n           SUA VEZ DE JOGAR!          \n\n", rodada_atual);
+            pthread_mutex_lock(&args->args_t->mutex);
 
-            //Realiza a jogada do usuário
-            // acao_do_jgdr(info_jgdr, info_inmg, escolha_jgdr);
+            system("clear");
+            printf("RODADA %d\n           SUA VEZ DE JOGAR!          \n\n", rodada_atual);
 
-            //Libera o ataque para o inimigo
-            // *ptr_ataque_liberado_inimigo = true;
-            // pthread_mutex_unlock(&mutex);
-            // printf("%d", *ptr_ataque_liberado_inimigo);
+            // Realiza a jogada do usuário
+            acao_do_jgdr(&args->args_t->info_jogador_1, &args->args_t->info_inmg1, &args->args_t->escolha_ataques_e_defesas);
+
+            // Libera o ataque para o inimigo
+            pthread_mutex_unlock(&args->args_t->mutex);
+            break;
         }
             
     //Thread do Inimigo
-    } else if (args->thread_id == 1){
+    } else if (args->t_principais == THREAD_INIMIGO){
         while (true){
-            // pthread_mutex_lock(&mutex);
-            pthread_mutex_lock(&args->mutex);
-            printf("entrei 1\n");
-            pthread_mutex_unlock(&args->mutex);
+            pthread_mutex_lock(&args->args_t->mutex);
+ 
+            // Realiza a jogada do inimigo 1
+            acao_do_inmg1(&args->args_t->info_jogador_1, &args->args_t->info_inmg1, &args->args_t->escolha_atq_def_inmg1); 
                 
-            printf("oi");
-            // if (*ptr_ataque_liberado_inimigo == false){
-            //     pthread_mutex_unlock(&mutex);
-            //     continue;
-            // }
-
-            //Realiza a jogada do inimigo 1
-            // acao_do_inmg1(info_jgdr, info_inmg, escolha_inmg); 
-                
-            //Indica o fim da rodada atual
-            // *ptr_rodada_terminada = true;
-            // pthread_mutex_unlock(&mutex);
+            pthread_mutex_unlock(&args->args_t->mutex);
+            break;
         }   
     }
 
@@ -102,39 +69,42 @@ void *gerenciar_threads (void *arg){
 }
     
 int main(){
-    //Inicialização dos dados referentes ao inimigo e jogador na struct vars_players
-    // vars vars_players;
-    struct_t struct_thr;
-    pthread_mutex_init(&struct_thr.mutex, 0);
+    struct_threads struct_t[2];
+    dados_threads dados_t; //Inicialização dos dados referentes ao inimigo e jogador na struct 
+    pthread_mutex_init(&dados_t.mutex, 0);
     //INIMIGO 1:
     //Inicializa inimigo 1
-    func_info_inimigo_1(&struct_thr.info_inmg1);
+    func_info_inimigo_1(&dados_t.info_inmg1);
 
     //Inicializa ataques e defesas do inimigo 1
-    func_atq_def_inimigo_1(&struct_thr.escolha_atq_def_inmg1);
+    func_atq_def_inimigo_1(&dados_t.escolha_atq_def_inmg1);
         
     //JOGADOR 1:
     //Inicializa jogador 1
-    func_info_jogador_1(&struct_thr.info_jogador_1);
+    func_info_jogador_1(&dados_t.info_jogador_1);
             
-    //Inicializa ataques e defesas
-    func_ataques_e_defesas(&struct_thr.escolha_ataques_e_defesas);
-    
-    int status, i;
+    //Inicializa ataques e defesas do jogador 1
+    func_ataques_e_defesas(&dados_t.escolha_ataques_e_defesas);
 
-    // struct_thr.s = &vars_players;
-    
+    //Inicialização da identificação das threads na struct "struct_t"
+    struct_t[0].args_t = &dados_t;
+    struct_t[0].t_principais = THREAD_JOGADOR;
+    struct_t[0].thread_id = 0;
+
+    struct_t[1].args_t = &dados_t;
+    struct_t[1].t_principais = THREAD_INIMIGO;
+    struct_t[1].thread_id = 1;
+
+    int status, i;
     pthread_t threads[THREADS_PRINCIPAIS];
-    
+
+    //Cria as duas threads principais do jogador e do inimigo
     for (i = 0; i < THREADS_PRINCIPAIS; i++){
-        
-        struct_thr.thread_id[i] = i;
-        
         status = pthread_create(
             &threads[i],
             NULL,
             gerenciar_threads,
-            (void *)&struct_thr
+            (void *)&struct_t[i]
         );
 
         if (status != 0){
