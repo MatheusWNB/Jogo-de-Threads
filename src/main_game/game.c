@@ -23,6 +23,7 @@ typedef struct{
     atq_def_inimigo_1 escolha_atq_def_inmg1;
     info_jogador_1 info_jogador_1;
     ataques_e_defesas escolha_ataques_e_defesas;
+    int ataque_liberado;
 } dados_threads;
 
 typedef struct {
@@ -40,6 +41,11 @@ void *gerenciar_threads (void *arg){
     if (args->t_principais == THREAD_JOGADOR){
         while (true){
             pthread_mutex_lock(&args->args_t->mutex);
+ 
+            if (args->args_t->ataque_liberado == true){
+                pthread_mutex_unlock(&args->args_t->mutex);
+                continue;
+            }
 
             system("clear");
             printf("RODADA %d\n           SUA VEZ DE JOGAR!          \n\n", rodada_atual);
@@ -47,24 +53,41 @@ void *gerenciar_threads (void *arg){
             // Realiza a jogada do usuário
             acao_do_jgdr(&args->args_t->info_jogador_1, &args->args_t->info_inmg1, &args->args_t->escolha_ataques_e_defesas);
 
+            if (args->args_t->info_inmg1.vida <= 0 || args->args_t->info_jogador_1.vida <= 0)
+                break;
+
             // Libera o ataque para o inimigo
             pthread_mutex_unlock(&args->args_t->mutex);
-            break;
+            args->args_t->ataque_liberado = true;
+            //break;
         }
             
     //Thread do Inimigo
     } else if (args->t_principais == THREAD_INIMIGO){
         while (true){
             pthread_mutex_lock(&args->args_t->mutex);
- 
+            if (args->args_t->ataque_liberado == false){
+                pthread_mutex_unlock(&args->args_t->mutex);
+                continue;
+            }
+            
             // Realiza a jogada do inimigo 1
-            acao_do_inmg1(&args->args_t->info_jogador_1, &args->args_t->info_inmg1, &args->args_t->escolha_atq_def_inmg1); 
-                
+            acao_do_inmg1(&args->args_t->info_jogador_1, &args->args_t->info_inmg1, &args->args_t->escolha_atq_def_inmg1);
+            
+            printf("Aperte 'ENTER' para ir para a próxima rodada\n");
+            getchar();
+            getchar();
+            
+            if (args->args_t->info_inmg1.vida <= 0 || args->args_t->info_jogador_1.vida <= 0)
+                break;
+
             pthread_mutex_unlock(&args->args_t->mutex);
-            break;
+            args->args_t->ataque_liberado = false;
+            //break;
         }   
     }
 
+    pthread_mutex_destroy(&args->args_t->mutex);
     pthread_exit(NULL);
 }
     
@@ -85,6 +108,8 @@ int main(){
             
     //Inicializa ataques e defesas do jogador 1
     func_ataques_e_defesas(&dados_t.escolha_ataques_e_defesas);
+
+    dados_t.ataque_liberado = false;
 
     //Inicialização da identificação das threads na struct "struct_t"
     struct_t[0].args_t = &dados_t;
@@ -115,6 +140,13 @@ int main(){
 
     for(i = 0; i < THREADS_PRINCIPAIS; i++)
         pthread_join(threads[i], NULL);
+
+    system("clear");
+    if (dados_t.info_jogador_1.vida > dados_t.info_inmg1.vida)
+        printf("VOCÊ GANHOU O JOGO, %s FOI DERROTADO\n", dados_t.info_inmg1.nome);
+    else 
+        printf("VOCÊ PERDEU O JOGO SEU FRACASSADO %s VENCEU!\n",dados_t.info_inmg1.nome);
+
     
     return 0;
 }
