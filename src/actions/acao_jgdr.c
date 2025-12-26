@@ -1,8 +1,13 @@
 #include "libs/libs.h"
 #include "actions/acao_jgdr.h"
+#include "actions/vantagens_jogador.h"
 
-void acao_do_jgdr(info_jogador_1 *info_jgdr, info_inimigo_1 *info_inmg, ataques_e_defesas *escolha_jgdr){
+void acao_do_jgdr(info_jogador_1 *info_jgdr, info_inimigo_1 *info_inmg, 
+                    ataques_e_defesas *escolha_jgdr, vantagens_jogador *vantagens_jogador, int rodada){
     
+    if (rodada / 2 == 0)
+        action_regenerar_vida(vantagens_jogador->regenerar_vida, info_jgdr->vida);
+
     //Escolha de ataque do jogador
     int atq_jogador1 = escolha_ataque_jogador_1(escolha_jgdr);
     putchar('\n');
