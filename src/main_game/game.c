@@ -23,6 +23,7 @@ typedef enum{
 typedef struct{
     int rodada_atual;
     int trava_ataque;
+    int finalizar_rodada;
 } dados_rodada;
 
 //Declaração dos dados referentes ao jogador e do inimigo
@@ -49,26 +50,24 @@ void *gerenciar_threads (void *arg){
     //Thread do jogador
     if (args->t_principais == THREAD_JOGADOR){
         while (true){
-            args->args_rodada->rodada_atual += 1;
 
             pthread_mutex_lock(&args->args_t->mutex);
- 
+            
+            if (args->args_rodada->finalizar_rodada == true)
+            break;
+            
             //Se "trava_ataque" for "true", a thread do jogador libera a vez para a thread do inimigo
             if (args->args_rodada->trava_ataque == true){
                 pthread_mutex_unlock(&args->args_t->mutex);
                 continue;
             }
-
+            
             system("clear");
-            printf("RODADA %d\n           SUA VEZ DE JOGAR!          \n\n", args->args_rodada->trava_ataque);
-
+            printf("RODADA %d\n           SUA VEZ DE JOGAR!          \n\n", args->args_rodada->rodada_atual);
+            
             // Realiza a jogada do usuário
             acao_do_jgdr(&args->args_t->info_jogador_1, &args->args_t->info_inmg1, &args->args_t->escolha_ataques_e_defesas);
-
-            //Finaliza o jogo se a vida do inimigo ou jogador for igual ou menor que zero
-            if (args->args_t->info_inmg1.vida <= 0 || args->args_t->info_jogador_1.vida <= 0)
-                break;
-
+            
             // Libera o ataque para o inimigo
             pthread_mutex_unlock(&args->args_t->mutex);
             args->args_rodada->trava_ataque = true;
@@ -91,17 +90,23 @@ void *gerenciar_threads (void *arg){
             printf("Aperte 'ENTER' para ir para a próxima rodada\n");
             getchar();
             getchar();
-            //Finaliza o jogo se a vida do inimigo ou jogador for igual ou menor que zero
-            if (args->args_t->info_inmg1.vida <= 0 || args->args_t->info_jogador_1.vida <= 0)
-                break;
 
+            //Finaliza o jogo se a vida do inimigo ou jogador for igual ou menor que zero
+            if (args->args_t->info_inmg1.vida <= 0 || args->args_t->info_jogador_1.vida <= 0){
+                pthread_mutex_unlock(&args->args_t->mutex);
+                pthread_mutex_destroy(&args->args_t->mutex);
+                args->args_rodada->finalizar_rodada = true;
+                break;
+            }
+            
+            args->args_rodada->rodada_atual += 1;
+            
             //Libera o ataque para o jogador 
             pthread_mutex_unlock(&args->args_t->mutex);
             args->args_rodada->trava_ataque = false;
         }   
     }
 
-    pthread_mutex_destroy(&args->args_t->mutex);
     pthread_exit(NULL);
 }
     
@@ -128,6 +133,7 @@ int main(){
     //Inicializa dados referentes ao controle do jogo e da rodada
     args_rodada_atual.trava_ataque = false;
     args_rodada_atual.rodada_atual = 1;
+    args_rodada_atual.finalizar_rodada = false;
 
     //Inicialização da identificação das threads na struct "struct_t"
     struct_t[0].args_t = &dados_t;
