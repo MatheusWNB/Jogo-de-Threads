@@ -26,3 +26,14 @@ void info_rodada_atual_inmg1(info_jogador_1 *info_jgdr1, info_inimigo_1 *info_in
         info_inmg1->nome, atq, atqs_e_defs->ataques_basicos[atq], info_jgdr1->vida
     );
 } 
+
+//Mostra quem foi o vencedor do jogo
+void info_vencedor(info_jogador_1 *info_jgdr, info_inimigo_1 *info_inmg1){
+
+    system("clear");
+    if (info_jgdr->vida > info_inmg1->vida)
+        printf("VOCÊ GANHOU O JOGO, %s FOI DERROTADO\n", info_inmg1->nome);
+    else 
+        printf("VOCÊ PERDEU O JOGO SEU FRACASSADO %s VENCEU!\n", info_jgdr->nome_jogador_1);
+
+}

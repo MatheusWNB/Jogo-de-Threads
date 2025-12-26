@@ -12,4 +12,7 @@ void info_rodada_atual_jgdr1(info_jogador_1 *info_jgdr1, info_inimigo_1 *info_in
 void info_rodada_atual_inmg1(info_jogador_1 *info_jgdr1, info_inimigo_1 *info_inmg1, 
                             atq_def_inimigo_1 *atqs_e_defs, int atq);
 
+//Mostra quem foi o vencedor do jogo                          
+void info_vencedor(info_jogador_1 *info_jgdr, info_inimigo_1 *info_inmg1);
+
 #endif
