@@ -9,6 +9,7 @@
 #include <stdint.h>
 #include "actions/acao_inmg1.h"
 #include "actions/acao_jgdr.h"
+#include "actions/vantagens_jogador.h"
 
 #define THREADS_PRINCIPAIS 2
 
@@ -25,6 +26,10 @@ typedef struct{
     int trava_ataque;
     int finalizar_rodada;
 } dados_rodada;
+
+typedef struct{
+    vantagens_jogador 
+}
 
 //Declaração dos dados referentes ao jogador e do inimigo
 typedef struct{
@@ -111,6 +116,9 @@ void *gerenciar_threads (void *arg){
 }
     
 int main(){
+    srand(time(NULL));
+    vantagens_jogador args_vantagens_jgdr;
+
     struct_threads struct_t[2];
     dados_threads dados_t; //Inicialização dos dados referentes ao inimigo e jogador na struct
     dados_rodada args_rodada_atual; //Inicializa dados da rodada
@@ -129,6 +137,8 @@ int main(){
             
     //Inicializa ataques e defesas do jogador 1
     func_ataques_e_defesas(&dados_t.escolha_ataques_e_defesas);
+
+    //Inicializa vantagens do jogador
 
     //Inicializa dados referentes ao controle do jogo e da rodada
     args_rodada_atual.trava_ataque = false;
