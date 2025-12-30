@@ -1,13 +1,15 @@
 #ifndef VANTAGENS_JOGADOR_H
 #define VANTAGENS_JOGADOR_H
 
+#include "infos/jogador_1.h"
+
 typedef struct {
-    double regenerar_vida[4];
+    int regenerar_vida[4];
 } vantagens_jogador;
 
 void init_vantagens_jogador(vantagens_jogador *args);
 
-double action_regenerar_vida (double *regenerar_vida, double vida);
+double action_regenerar_vida (vantagens_jogador *args_vantagens, info_jogador_1 *arg_vida);
 
-#endif VANTAGENS_JOGADOR_H
+#endif 
 

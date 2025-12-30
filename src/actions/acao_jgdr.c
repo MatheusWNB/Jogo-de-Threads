@@ -3,10 +3,10 @@
 #include "actions/vantagens_jogador.h"
 
 void acao_do_jgdr(info_jogador_1 *info_jgdr, info_inimigo_1 *info_inmg, 
-                    ataques_e_defesas *escolha_jgdr, vantagens_jogador *vantagens_jogador, int rodada){
+                    ataques_e_defesas *escolha_jgdr, vantagens_jogador *args_vantagens, int *rodada){
     
-    if (rodada / 2 == 0)
-        action_regenerar_vida(vantagens_jogador->regenerar_vida, info_jgdr->vida);
+    if (*rodada != 0 && (*rodada) % 2 == 0)
+        info_jgdr->vida = action_regenerar_vida(args_vantagens, info_jgdr);
 
     //Escolha de ataque do jogador
     int atq_jogador1 = escolha_ataque_jogador_1(escolha_jgdr);
