@@ -28,8 +28,8 @@ typedef struct{
 } dados_rodada;
 
 typedef struct{
-    vantagens_jogador 
-}
+    vantagens_jogador regenerar_vida;
+} struct_vantagens;
 
 //Declaração dos dados referentes ao jogador e do inimigo
 typedef struct{
@@ -44,6 +44,7 @@ typedef struct{
 typedef struct {
     int thread_id;
     dados_threads *args_t;
+    struct_vantagens *args_vant;
     def_thread t_principais;
     dados_rodada *args_rodada;
 } struct_threads;
@@ -71,7 +72,8 @@ void *gerenciar_threads (void *arg){
             printf("RODADA %d\n           SUA VEZ DE JOGAR!          \n\n", args->args_rodada->rodada_atual);
             
             // Realiza a jogada do usuário
-            acao_do_jgdr(&args->args_t->info_jogador_1, &args->args_t->info_inmg1, &args->args_t->escolha_ataques_e_defesas);
+            acao_do_jgdr(&args->args_t->info_jogador_1, &args->args_t->info_inmg1, 
+                        &args->args_t->escolha_ataques_e_defesas, &args->args_vant->regenerar_vida, &args->args_rodada->rodada_atual);
             
             // Libera o ataque para o inimigo
             pthread_mutex_unlock(&args->args_t->mutex);
@@ -111,15 +113,14 @@ void *gerenciar_threads (void *arg){
             args->args_rodada->trava_ataque = false;
         }   
     }
-
+                                            
     pthread_exit(NULL);
 }
     
 int main(){
     srand(time(NULL));
-    vantagens_jogador args_vantagens_jgdr;
-
     struct_threads struct_t[2];
+    struct_vantagens dados_vantagens;
     dados_threads dados_t; //Inicialização dos dados referentes ao inimigo e jogador na struct
     dados_rodada args_rodada_atual; //Inicializa dados da rodada
     pthread_mutex_init(&dados_t.mutex, 0);
@@ -139,10 +140,11 @@ int main(){
     func_ataques_e_defesas(&dados_t.escolha_ataques_e_defesas);
 
     //Inicializa vantagens do jogador
+    init_vantagens_jogador(&dados_vantagens.regenerar_vida);
 
     //Inicializa dados referentes ao controle do jogo e da rodada
     args_rodada_atual.trava_ataque = false;
-    args_rodada_atual.rodada_atual = 1;
+    args_rodada_atual.rodada_atual = 0;
     args_rodada_atual.finalizar_rodada = false;
 
     //Inicialização da identificação das threads na struct "struct_t"
@@ -150,6 +152,7 @@ int main(){
     struct_t[0].t_principais = THREAD_JOGADOR;
     struct_t[0].thread_id = 0;
     struct_t[0].args_rodada = &args_rodada_atual;
+    struct_t[0].args_vant = &dados_vantagens;
 
     struct_t[1].args_t = &dados_t;
     struct_t[1].t_principais = THREAD_INIMIGO;
