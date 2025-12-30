@@ -3,7 +3,9 @@
 
 #include "libs/libs_inimigo.h"
 #include "libs/libs_jogador_1.h"
+#include "actions/vantagens_jogador.h"
 
-void acao_do_jgdr(info_jogador_1 *info_jgdr, info_inimigo_1 *info_inmg, ataques_e_defesas *escolha_jgdr);
+void acao_do_jgdr(info_jogador_1 *info_jgdr, info_inimigo_1 *info_inmg, ataques_e_defesas *escolha_jgdr,
+                vantagens_jogador *args_vantagens, int *rodada);
 
 #endif
