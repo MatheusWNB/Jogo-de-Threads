@@ -3,13 +3,15 @@
 
 #include "infos/jogador_1.h"
 
+//Declaração das vantagens do jogador
 typedef struct {
     int regenerar_vida[4];
-} vantagens_jogador;
+} vantagens_jgdr;
 
-void init_vantagens_jogador(vantagens_jogador *args);
+//Inicia vantagens do jogador
+void init_vantagens_jogador(vantagens_jgdr *args);
 
-double action_regenerar_vida (vantagens_jogador *args_vantagens, info_jogador_1 *arg_vida);
+//Função para regenerar vida do jogador
+double action_regenerar_vida (vantagens_jgdr *args_vantagens, info_jogador *arg_vida);
 
 #endif 
-

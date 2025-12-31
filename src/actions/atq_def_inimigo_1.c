@@ -1,14 +1,13 @@
 #include "libs/libs.h"
 #include "actions/atq_def_inimigo_1.h"
 
-void func_atq_def_inimigo_1 (atq_def_inimigo_1 *ptr_atq_def_inimigo_1){
+void init_inmg_atq_def (inmg_atqs_defs *arg_atq_def){
     //Define os ataques do inimigo
-    ptr_atq_def_inimigo_1 -> ataques_basicos[0] = 5.0;
-    ptr_atq_def_inimigo_1 -> ataques_basicos[1] = 12.50;
-    ptr_atq_def_inimigo_1 -> ataques_basicos[2] = 18.50;
+    arg_atq_def -> atqs_basicos[0] = 5.0;
+    arg_atq_def -> atqs_basicos[1] = 12.50;
+    arg_atq_def -> atqs_basicos[2] = 18.50;
 
     //Define as defesas do inimigo
-    ptr_atq_def_inimigo_1 -> defesas_basicas[0] = 50;
-    ptr_atq_def_inimigo_1 -> defesas_basicas[1] = 85;
-
+    arg_atq_def -> defs_basicas[0] = 50;
+    arg_atq_def -> defs_basicas[1] = 85;
 }

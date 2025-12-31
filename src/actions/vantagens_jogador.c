@@ -3,8 +3,8 @@
 #include "infos/jogador_1.h"
 
 //Define as vantagens do jogador
-void init_vantagens_jogador (vantagens_jogador *args){
-    //Vantagem para regenerar vida
+void init_vantagens_jogador (vantagens_jgdr *args){
+    //Porcentagem da regeneração de vida com base na vida atual do jogador
     args->regenerar_vida[0] = 10;
     args->regenerar_vida[1] = 25;
     args->regenerar_vida[2] = 50;
@@ -12,7 +12,7 @@ void init_vantagens_jogador (vantagens_jogador *args){
 }
 
 //Regenera a vida do jogador com base em uma porcentagem aleatória
-double action_regenerar_vida (vantagens_jogador *args_vantagens, info_jogador_1 *arg_vida){
+double action_regenerar_vida (vantagens_jgdr *args_vantagens, info_jogador *arg_vida){
     system("clear");
     printf("Você recebeu uma runa da vida! Deseja aceita-la? (0/1)\n");
 
@@ -21,6 +21,7 @@ double action_regenerar_vida (vantagens_jogador *args_vantagens, info_jogador_1 
 
     while (true){
         printf("%0.2f\n", arg_vida->vida);
+        //Seleciona uma porcentagem aleatória de aumento de vida
         if (resposta == 0){
             int tamanho = sizeof(args_vantagens->regenerar_vida) / sizeof(int);
             int indice = rand() % tamanho;
@@ -34,7 +35,8 @@ double action_regenerar_vida (vantagens_jogador *args_vantagens, info_jogador_1 
             //Retorna a vida atual do jogador mais a porcentagem da vida atual
             printf("%0.2f\n", arg_vida->vida + resultado);
             return  arg_vida->vida + resultado;
-
+            
+        //Retorna a vida atual do jogador se resposta for igual a 1
         } else if (resposta == 1){
             return arg_vida->vida;
             

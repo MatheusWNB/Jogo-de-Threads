@@ -3,21 +3,22 @@
 #include "actions/atq_def_inimigo_1.h"
 #include <string.h>
 
-//Informações do inimigo 1
-void func_info_inimigo_1(info_inimigo_1 *ptr_info_inimigo_1) {
-    
-    strcpy(ptr_info_inimigo_1 -> nome, "Nine fingers");
-    ptr_info_inimigo_1 -> vida = 50;
-    ptr_info_inimigo_1 -> resistência = 100;
+//Informações do inimigo 
+void init_info_inimigo(info_inimigo *arg_info_inimigo) {
+
+    strcpy(arg_info_inimigo -> nome, "Nine fingers");
+    arg_info_inimigo -> vida = 50;
+    arg_info_inimigo -> resistencia = 100;
 
 }
 
-//Realiza a escolha aleatória do ataque do inimigo 1
-int escolha_ataque_inimigo_1 (atq_def_inimigo_1 *ptr_atq_def_inimigo_1){
+//Realiza a escolha aleatória do ataque do inimigo 
+int escolha_atq_inimigo (inmg_atqs_defs *arg_atq_def){
+
     int laco = true;
     int indice;
 
-    int tamanho = sizeof(ptr_atq_def_inimigo_1->ataques_basicos) / sizeof(double);
+    int tamanho = sizeof(arg_atq_def->atqs_basicos) / sizeof(double);
     indice = rand() % tamanho;
 
     return indice;

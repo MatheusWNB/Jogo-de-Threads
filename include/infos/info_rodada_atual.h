@@ -4,15 +4,15 @@
 #include "jogador_1.h"
 #include "inimigo_1.h"
 
-//Mostra as informações da jogada do jogador 1
-void info_rodada_atual_jgdr1(info_jogador_1 *info_jgdr1, info_inimigo_1 *info_inmg1, 
-                            ataques_e_defesas *atqs_e_defs, int atq, double vida);
+//Mostra as informações da jogada do jogador 
+void info_rodada_atual_jgdr(info_jogador *info_jgdr, info_inimigo *info_inmg, 
+                            jgdr_atqs_defs *args_atq_def, int atq, double vida);
 
 //Mostra as informações da jogada do inimigo
-void info_rodada_atual_inmg1(info_jogador_1 *info_jgdr1, info_inimigo_1 *info_inmg1, 
-                            atq_def_inimigo_1 *atqs_e_defs, int atq);
+void info_rodada_atual_inmg(info_jogador *info_jgdr, info_inimigo *info_inmg, 
+                            inmg_atqs_defs *args_atq_def, int atq);
 
 //Mostra quem foi o vencedor do jogo                          
-void info_vencedor(info_jogador_1 *info_jgdr, info_inimigo_1 *info_inmg1);
+void info_vencedor(info_jogador *info_jgdr, info_inimigo *info_inmg);
 
 #endif

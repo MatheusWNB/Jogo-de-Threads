@@ -1,13 +1,13 @@
-#ifndef ATQ_DEF_INIMIGO_1
-#define ATQ_DEF_INIMIGO_1
+#ifndef ATQ_DEF_INIMIGO_H
+#define ATQ_DEF_INIMIGO_H
 
-//Declarando struct para ataques e defesas do inimigo 1
+//Declarando struct para ataques e defesas do inimigo 
 typedef struct {
-    double ataques_basicos[3];
-    double defesas_basicas[2];
-} atq_def_inimigo_1;
+    double atqs_basicos[3];
+    double defs_basicas[2];
+} inmg_atqs_defs;
 
-//Função para definir os ataques e defesas do inimigo 1
-void func_atq_def_inimigo_1(atq_def_inimigo_1 *ptr_atq_def_inimigo_1);
+//Função para definir os ataques e defesas do inimigo 
+void init_inmg_atq_def(inmg_atqs_defs *args_atq_def);
 
 #endif

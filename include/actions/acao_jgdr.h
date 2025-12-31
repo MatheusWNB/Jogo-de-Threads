@@ -5,7 +5,8 @@
 #include "libs/libs_jogador_1.h"
 #include "actions/vantagens_jogador.h"
 
-void acao_do_jgdr(info_jogador_1 *info_jgdr, info_inimigo_1 *info_inmg, ataques_e_defesas *escolha_jgdr,
-                vantagens_jogador *args_vantagens, int *rodada);
+//Declara as ações do jogador
+void acao_jgdr(info_jogador *info_jgdr, info_inimigo *info_inmg, jgdr_atqs_defs *escolha_jgdr,
+                    vantagens_jgdr *args_vantagens, int *rodada);
 
 #endif

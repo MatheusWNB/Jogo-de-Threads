@@ -3,18 +3,18 @@
 
 #include "actions/atq_def_inimigo_1.h"
 
-//Declara a struct para as informações do inimigo 1
+//Declara a struct para as informações do inimigo 
 typedef struct {
     char nome[20];
     double vida;
-    double resistência;
-} info_inimigo_1;
+    double resistencia;
+} info_inimigo;
 
-//Função para inicializar as informações do jogador 1
-void func_info_inimigo_1(info_inimigo_1 *ptr_info_inimigo_1);
+//Função para inicializar as informações do jogador 
+void init_info_inimigo(info_inimigo *arg_info_inimigo);
 
 //Função para inicializar as ações do jogador 1 
-int escolha_ataque_inimigo_1(atq_def_inimigo_1 *ptr_atq_def_inimigo_1);
+int escolha_atq_inimigo(inmg_atqs_defs *arg_atq_def);
 
 #endif
 

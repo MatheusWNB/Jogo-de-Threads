@@ -2,27 +2,26 @@
 #include "infos/jogador_1.h"
 #include <string.h>
 
-//Inicializa as informações do jogador 1
-void func_info_jogador_1(info_jogador_1 *ptr_info_jogador_1){
+//Inicializa as informações do jogador 
+void init_info_jogador(info_jogador *arg_info_jogador){
 
-    strcpy(ptr_info_jogador_1->nome_jogador_1, "Matheus");
-    ptr_info_jogador_1 -> vida = 50;
-    ptr_info_jogador_1 -> resistencia = 100;
+    strcpy(arg_info_jogador->nome, "Matheus");
+    arg_info_jogador -> vida = 50;
+    arg_info_jogador -> resistencia = 100;
 
 }
 
 //Função para o usuário digitar a sua opção de ataque
-int escolha_ataque_jogador_1(ataques_e_defesas *ptr_ataques_e_defesas){
+int escolha_atq_jogador(jgdr_atqs_defs *arg_atq_def){
     int laco = true;
     int escolha_ataque;
 
     while(laco){
-
         printf(
             "Escolha seu ataque: \n"
             "Ataque básico 0 (dano: %0.2f). Pode ser usado toda rodada\n"
             "Ataque básico 1 (dano: %0.2f). Pode ser usado a cada 2 rodadas\n", 
-            ptr_ataques_e_defesas->ataques_basicos[0], ptr_ataques_e_defesas->ataques_basicos[1]);
+            arg_atq_def->atqs_basicos[0], arg_atq_def->atqs_basicos[1]);
 
         scanf("%d", &escolha_ataque);
 

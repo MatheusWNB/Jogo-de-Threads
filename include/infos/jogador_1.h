@@ -3,17 +3,18 @@
 
 #include "actions/ataques_e_defesas.h"
 
+//Declara a struct para as informações do jogador
 typedef struct {
-    char nome_jogador_1[20];
+    char nome[20];
     double vida;
     double resistencia;
-} info_jogador_1;
+} info_jogador;
 
-//Função para inicializar as informações do jogador 1
-void func_info_jogador_1(info_jogador_1 *ptr_info_jogador_1);
+//Função para inicializar as informações do jogador 
+void init_info_jogador(info_jogador *arg_info_jogador);
 
-//Função para inicializar as ações do jogador 1 
-int escolha_ataque_jogador_1(ataques_e_defesas *ptr_ataques_e_defesas);
+//Função para inicializar as ações do jogador  
+int escolha_atq_jogador(jgdr_atqs_defs *arg_atq_def);
 
 #endif
 
